@@ -1,0 +1,64 @@
+﻿@model IEnumerable<CRUDAppUsingADO.Models.Employees>
+
+@{
+    ViewData["Title"] = "Employee List";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary">Employee List</h2>
+        <a asp-action="Create" class="btn btn-success shadow-sm px-4">
+            ➕ Add Employee
+        </a>
+    </div>
+
+    <div class="card shadow-lg rounded-3">
+        <div class="card-body p-0">
+            <table class="table table-hover table-striped mb-0">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.id)</th>
+                        <th>@Html.DisplayNameFor(model => model.name)</th>
+                        <th>@Html.DisplayNameFor(model => model.gender)</th>
+                        <th>@Html.DisplayNameFor(model => model.age)</th>
+                        <th>@Html.DisplayNameFor(model => model.designation)</th>
+                        <th>@Html.DisplayNameFor(model => model.city)</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.id</td>
+                            <td>@item.name</td>
+                            <td>@item.gender</td>
+                            <td>@item.age</td>
+                            <td>@item.designation</td>
+                            <td>@item.city</td>
+
+                            <td class="text-center">
+                                <a asp-action="Edit" asp-route-id="@item.id"
+                                   class="btn btn-sm btn-primary mx-1">
+                                    ✏ Edit
+                                </a>
+
+                                <a asp-action="Details" asp-route-id="@item.id"
+                                   class="btn btn-sm btn-info text-white mx-1">
+                                    🔍 Details
+                                </a>
+
+                                <a asp-action="Delete" asp-route-id="@item.id"
+                                   class="btn btn-sm btn-danger mx-1">
+                                    🗑 Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

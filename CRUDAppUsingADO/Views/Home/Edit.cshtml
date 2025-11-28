@@ -1,0 +1,68 @@
+﻿@model CRUDAppUsingADO.Models.Employees
+
+@{
+    ViewData["Title"] = "Edit Employee";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-warning text-white">
+            <h3 class="mb-0">✏️ Edit Employee</h3>
+        </div>
+
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="id" class="form-label fw-bold text-secondary"></label>
+                    <input asp-for="id" class="form-control border-primary" readonly />
+                    <span asp-validation-for="id" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="name" class="form-label fw-bold text-secondary"></label>
+                    <input asp-for="name" class="form-control border-info" />
+                    <span asp-validation-for="name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="gender" class="form-label fw-bold text-secondary"></label>
+                    <input asp-for="gender" class="form-control border-success" />
+                    <span asp-validation-for="gender" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="age" class="form-label fw-bold text-secondary"></label>
+                    <input asp-for="age" class="form-control border-danger" />
+                    <span asp-validation-for="age" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="designation" class="form-label fw-bold text-secondary"></label>
+                    <input asp-for="designation" class="form-control border-warning" />
+                    <span asp-validation-for="designation" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="city" class="form-label fw-bold text-secondary"></label>
+                    <input asp-for="city" class="form-control border-secondary" />
+                    <span asp-validation-for="city" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary px-4">
+                    💾 Save Changes
+                </button>
+                <a asp-action="Index" class="btn btn-secondary px-4 ms-2">
+                    🔙 Back to List
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

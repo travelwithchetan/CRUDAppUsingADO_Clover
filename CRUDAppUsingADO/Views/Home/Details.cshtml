@@ -1,0 +1,55 @@
+﻿@model CRUDAppUsingADO.Models.Employees
+
+@{
+    ViewData["Title"] = "Employee Details";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Employee Details</h3>
+        </div>
+
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-sm-4 font-weight-bold text-secondary">Employee ID:</div>
+                <div class="col-sm-8">@Html.DisplayFor(model => model.id)</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-4 font-weight-bold text-secondary">Name:</div>
+                <div class="col-sm-8">@Html.DisplayFor(model => model.name)</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-4 font-weight-bold text-secondary">Gender:</div>
+                <div class="col-sm-8">@Html.DisplayFor(model => model.gender)</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-4 font-weight-bold text-secondary">Age:</div>
+                <div class="col-sm-8">@Html.DisplayFor(model => model.age)</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-4 font-weight-bold text-secondary">Designation:</div>
+                <div class="col-sm-8">@Html.DisplayFor(model => model.designation)</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-4 font-weight-bold text-secondary">City:</div>
+                <div class="col-sm-8">@Html.DisplayFor(model => model.city)</div>
+            </div>
+        </div>
+
+        <div class="card-footer bg-light">
+            <a href="@Url.Action("Edit", new { id = Model.id })" class="btn btn-warning text-white">
+                ✏️ Edit
+            </a>
+
+            <a asp-action="Index" class="btn btn-secondary ml-2">
+                🔙 Back to List
+            </a>
+        </div>
+    </div>
+</div>
