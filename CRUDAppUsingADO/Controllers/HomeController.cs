@@ -7,16 +7,41 @@ namespace CRUDAppUsingADO.Controllers
     public class HomeController : Controller
     {
         private readonly EmployeeDataAccessLayer _dal;
-        public HomeController()
+        private readonly ILogger<HomeController> _logger;
+        public HomeController(ILogger<HomeController> logger,EmployeeDataAccessLayer dal)
         {
-            _dal = new EmployeeDataAccessLayer();
+           
+            _logger = logger;
+            _dal = dal;
+
+            try
+            {
+                int x = 10;
+                int y = 0;
+                var result = x / y;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
         }
-        
-        
+
+
+        public IActionResult LoggingIndex() 
+        {
+            _logger.LogInformation("Index Action Called");
+            
+            return View();
+        }
+        public void GetEmployees()
+        {
+            _logger.LogInformation("Fetching employee list...");
+        }
+
 
         public IActionResult Index()
         {
-            
+            _logger.LogInformation("Index method called at {time}", DateTime.Now);
             var employees=_dal.GetAllEmployees();
             return View(employees);
         
@@ -24,13 +49,15 @@ namespace CRUDAppUsingADO.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-           return View();
+            _logger.LogInformation("Create GET called at {time}", DateTime.Now);
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Employees emp)
         {
+            _logger.LogInformation("Create POST called at {time}", DateTime.Now);
             try 
             {
                 _dal.AddEmployee(emp);
@@ -99,6 +126,14 @@ namespace CRUDAppUsingADO.Controllers
             }
             
         }
+
+        [HttpPost]
+        public IActionResult UpdateDesignation(int id, string designation)
+        {
+            _dal.UpdateDesignation(id, designation);
+            return RedirectToAction("Index");
+        }
+
 
 
 

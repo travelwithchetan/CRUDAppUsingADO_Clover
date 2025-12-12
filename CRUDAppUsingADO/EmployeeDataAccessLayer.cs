@@ -1,11 +1,12 @@
 ﻿using CRUDAppUsingADO.Models;
-using System.Data.SqlClient;
-using System.Data;
+using CRUDAppUsingADO.Unit_Testing;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace CRUDAppUsingADO
 {
-    public class EmployeeDataAccessLayer
+    public class EmployeeDataAccessLayer: IEmployeeDataAccessLayer
     {
         string cs = ConnectionString.dbcs;
         #region GetAllEmployee
@@ -155,6 +156,24 @@ namespace CRUDAppUsingADO
 
                 con.Open();
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        #endregion
+
+        #region Dropdownlist Method fro database call
+
+        public void UpdateDesignation(int id, string designation)
+        {
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE Employee SET designation = @designation WHERE id = @id", con);
+                cmd.Parameters.AddWithValue("@designation", designation);
+                cmd.Parameters.AddWithValue("@id", id);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                
             }
         }
 
