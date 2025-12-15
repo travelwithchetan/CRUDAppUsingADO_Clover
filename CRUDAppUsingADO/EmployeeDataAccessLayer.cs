@@ -178,6 +178,36 @@ namespace CRUDAppUsingADO
         }
         #endregion
 
+        #region SignUp Functionality
+        public bool UserExists(string username)
+        {
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT COUNT(*) FROM Users WHERE Username=@username", con);
+                cmd.Parameters.AddWithValue("@username", username);
+
+                con.Open();
+                return (int)cmd.ExecuteScalar() > 0;
+            }
+        }
+
+        public void RegisterUser(string username, string password)
+        {
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                SqlCommand cmd = new SqlCommand(
+                    "INSERT INTO Users (Username, Password) VALUES (@u, @p)", con);
+                cmd.Parameters.AddWithValue("@u", username);
+                cmd.Parameters.AddWithValue("@p", password);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        #endregion 
+
 
     }
 }

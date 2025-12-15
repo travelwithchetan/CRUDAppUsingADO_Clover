@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRUDAppUsingADO.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController /*Controller*/
     {
         private readonly EmployeeDataAccessLayer _dal;
         public HomeController()

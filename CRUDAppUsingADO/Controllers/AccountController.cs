@@ -32,6 +32,39 @@
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
+
+        //public IActionResult Logout()
+        //{
+        //    HttpContext.Session.Clear();   // removes all session data
+        //    return RedirectToAction("Login", "Account");
+        //}
+        #region SignUp Functionality Action Method
+        [HttpGet]
+        public IActionResult Signup()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Signup(SignupViewModel model)
+        {
+            if (model.Password != model.ConfirmPassword)
+            {
+                ViewBag.Error = "Passwords do not match";
+                return View();
+            }
+
+            if (_dal.UserExists(model.Username))
+            {
+                ViewBag.Error = "User already exists";
+                return View();
+            }
+
+            _dal.RegisterUser(model.Username, model.Password);
+            return RedirectToAction("Login");
+        }
+
+        #endregion
     }
 
 }
