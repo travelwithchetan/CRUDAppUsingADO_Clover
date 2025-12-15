@@ -159,6 +159,24 @@ namespace CRUDAppUsingADO
         }
 
         #endregion
+        #region Login_Logout
+        public bool ValidateUser(string username, string password)
+        {
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                SqlCommand cmd = new SqlCommand("spValidateUser", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Username", username);
+                cmd.Parameters.AddWithValue("@Password", password);
+
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                return reader.HasRows;   // TRUE = valid user
+            }
+        }
+        #endregion
 
 
     }

@@ -17,6 +17,8 @@ namespace CRUDAppUsingADO.Controllers
         public IActionResult Index()
         {
             
+            if (HttpContext.Session.GetString("username") == null)
+                return RedirectToAction("Login", "Account");
             var employees=_dal.GetAllEmployees();
             return View(employees);
         
