@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRUDAppUsingADO.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController /*Controller*/
     {
         private readonly EmployeeDataAccessLayer _dal;
         public HomeController()
@@ -17,6 +17,8 @@ namespace CRUDAppUsingADO.Controllers
         public IActionResult Index()
         {
             
+            if (HttpContext.Session.GetString("username") == null)
+                return RedirectToAction("Login", "Account");
             var employees=_dal.GetAllEmployees();
             return View(employees);
         
