@@ -2,16 +2,36 @@
 using System.Data.SqlClient;
 using System.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace CRUDAppUsingADO
 {
     public class EmployeeDataAccessLayer
     {
+        private readonly IMemoryCache _cache;
+
         string cs = ConnectionString.dbcs;
+
+        
+        public EmployeeDataAccessLayer(IMemoryCache cache)
+        {
+            _cache = cache; 
+        }
         #region GetAllEmployee
         public List<Employees> GetAllEmployees()
         {
-            List<Employees> emplist = new List<Employees>();
+            const string cachekey = "EmployeeList";
+
+            if (_cache.TryGetValue(cachekey, out List<Employees> employees))
+            {
+                return employees;//return from cache
+            }
+
+            employees = new List<Employees>();
+
+
+            //List<Employees> emplist = new List<Employees>();
             using (SqlConnection con = new SqlConnection(cs))
             {
                 SqlCommand cmd = new SqlCommand("spGetAllEployee", con);
@@ -27,10 +47,11 @@ namespace CRUDAppUsingADO
                     emp.age = Convert.ToInt32(reader["age"]);
                     emp.designation = reader["designation"].ToString() ?? "";
                     emp.city = reader["city"].ToString();
-                    emplist.Add(emp);
+                    employees.Add(emp);
 
-                }
-                return emplist;
+               }
+                _cache.Set(cachekey,employees, TimeSpan.FromMinutes(5));
+                return employees;
             }
         }
         #endregion
@@ -60,7 +81,13 @@ namespace CRUDAppUsingADO
         #region View for Edit and Method for Edit Update
         public Employees getEmployeeById(int id)
         {
-            Employees emp = new Employees();
+            string cachekey = $"Employees_{id}";
+
+            if (_cache.TryGetValue(cachekey, out Employees emp))
+            {
+                return emp; 
+            }
+            //Employees emp = new Employees();
             using (SqlConnection con = new SqlConnection(cs))
             {
                 SqlCommand cmd = new SqlCommand("select * from employee where Id=@id", con);
@@ -85,6 +112,7 @@ namespace CRUDAppUsingADO
                 {
                     Console.WriteLine(ex.Message);
                 }
+                _cache.Set(cachekey,emp,TimeSpan.FromMinutes(5));
                 return emp;
             }
 

@@ -2,11 +2,16 @@
 {
     using CRUDAppUsingADO.Models;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
 
     public class AccountController : Controller
     {
+        private readonly EmployeeDataAccessLayer _dal;
+        public AccountController(IMemoryCache cache)
+        {
+             _dal = new EmployeeDataAccessLayer(cache);
+        }
         
-        EmployeeDataAccessLayer _dal=new EmployeeDataAccessLayer();
 
         [HttpGet]
         public IActionResult Login()

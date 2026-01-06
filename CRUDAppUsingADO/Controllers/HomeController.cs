@@ -1,15 +1,16 @@
 using System.Diagnostics;
 using CRUDAppUsingADO.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace CRUDAppUsingADO.Controllers
 {
     public class HomeController : BaseController /*Controller*/
     {
         private readonly EmployeeDataAccessLayer _dal;
-        public HomeController()
+        public HomeController(IMemoryCache cache)
         {
-            _dal = new EmployeeDataAccessLayer();
+            _dal = new EmployeeDataAccessLayer(cache);
         }
         
         
